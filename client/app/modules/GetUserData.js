@@ -4,6 +4,7 @@ async function checkSession() {
     credentials: "include",
   });
   if (!response.ok) {
+    window.location.href = "/sign-in";
     throw new Error("Failed to check session");
   }
   const data = await response.json();

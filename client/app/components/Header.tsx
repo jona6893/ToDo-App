@@ -2,24 +2,20 @@
 import React, { useEffect } from "react";
 import { checkSession, getUserData } from "../modules/GetUserData";
 import NewTask from "./NewTask";
-import { userStore } from "../store/userStore";
-
-/* interface Props {
-  setUser: React.Dispatch<React.SetStateAction<null | string>>;
-  user: { email: string; _key: string; name: string };
-} */
+import userStore from "../store/userStore";
+import Logout from "./Logout";
 
 function Header(/* {setUser, user}:Props */) {
-const {user, setUser} = userStore()
-const [model, setModel] = React.useState<boolean>(false);
+  const { user, setUser } = userStore();
+  const [model, setModel] = React.useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       const checkUser = await checkSession();
       const user = checkUser.user;
       if (checkUser.user) {
-        console.log(checkUser.user);
-       const getUser = await getUserData(user);
-       setUser(getUser);
+        //console.log(checkUser.user);
+        const getUser = await getUserData(user);
+        setUser(getUser);
       } else {
         window.location.replace("/sign-in");
       }
@@ -27,18 +23,16 @@ const [model, setModel] = React.useState<boolean>(false);
 
     fetchData();
   }, []);
-  console.log(user)
+  //console.log(user)
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div>
-          <ul className="flex flex-col">
-            <li>{user?.email ? `Welcome: ${user.email}` : "username"}</li>
-            <li className="bg-red-500 w-fit rounded-md text-white px-2 py-1">
-              Logout
-            </li>
-          </ul>
+        <div className="dark:text-gray-200 flex md:flex-row-reverse max-md:flex-col md:items-center gap-2">
+          <Logout />
+          <p className="text-sm ">
+            {user?.email ? `Welcome: ${user.email}` : "username"}
+          </p>
         </div>
         <a
           href="https://flowbite.com/"

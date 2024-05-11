@@ -1,63 +1,69 @@
 "use client";
-import React, { useEffect } from 'react'
-import addNewTask from '../modules/AddNewTask'
+import React, { useEffect } from "react";
+import addNewTask from "../modules/AddNewTask";
+import userStore from "../store/userStore";
+
 interface Prop {
-  setModel: React.Dispatch<React.SetStateAction<boolean>>
-  user: {email: string, _key: string, name: string}
+  setModel: React.Dispatch<React.SetStateAction<boolean>>;
+  user: { email: string; _key: string; name: string };
 }
 
-function NewTask({setModel, user}: Prop) {
+function NewTask({ setModel, user }: Prop) {
+  const { tasks, setTask } = userStore();
 
-  
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       setModel(false);
     }
   };
-  
+
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setModel(false)
+    setModel(false);
     const form = event.currentTarget;
-    const task = {title: form.title.value, description: form.description.value, id:user._key,status: 'todo'}
-    console.log(task)
-    const submitTask = addNewTask(task)
-    console.log(submitTask)
-
+    const task = {
+      title: form.title.value,
+      description: form.description.value,
+      id: user._key,
+      status: "todo",
+    };
+    console.log(task);
+    const submitTask = await addNewTask(task);
+    if (submitTask.status === true) {
+      setTask([...tasks, submitTask.newTask]);
+    }
+    console.log(submitTask);
   }
 
-
-
   return (
-    <div className="absolute top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/10">
-      <div className="w-4/5 bg-white min-h-60 h-fit shadow-card rounded-lg p-4 flex flex-col justify-center gap-2">
-       <div className='flex justify-between '>
-        <h4 className='text-xl'>Add Task</h4>
-        <button className="w-fit" onClick={()=>setModel(false)}>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-       </div>
+    <div className="absolute z-50 top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/10">
+      <div className="w-4/5 max-w-lg bg-white min-h-60 h-fit shadow-card rounded-lg p-4 flex flex-col justify-center gap-2">
+        <div className="flex justify-between ">
+          <h4 className="text-xl">Add Task</h4>
+          <button className="w-fit" onClick={() => setModel(false)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-8 h-8"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
         <form onSubmit={handleSubmit} action="" className="flex flex-col gap-4">
           <div>
             <label
@@ -102,4 +108,4 @@ function NewTask({setModel, user}: Prop) {
   );
 }
 
-export default NewTask
+export default NewTask;

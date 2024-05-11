@@ -2,28 +2,25 @@
 import { useState } from "react";
 import SignInUser from "../modules/SignIn.js";
 
-
 function SignInForm() {
   const [message, setMessage] = useState<string | null>(null);
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      const email = e.currentTarget.email.value;
-      const password = e.currentTarget.password.value;
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
 
-      const response = await SignInUser(email, password);
+    const response = await SignInUser(email, password);
 
-      if (response.alert) {
-        setMessage(response.alert);
-      } else {
-        setMessage(null);
-        setTimeout(() => {
-          //window.location.replace("/");
-        }, 1500);
-      }
+    if (response.alert) {
+      setMessage(response.alert);
+    } else {
+      setMessage(null);
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1500);
     }
-
-
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">

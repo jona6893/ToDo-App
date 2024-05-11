@@ -5,7 +5,7 @@ import cors from "cors";
 import { LoginUser } from "./loginUser.mjs";
 import { RegisterNewUser } from "./registerNewUser.mjs";
 import { GetUser } from "./getUser.mjs";
-import { AddTask, GetTasks } from "./Tasks.mjs";
+import { AddTask, DeleteTask, GetTasks, UpdateTask } from "./Tasks.mjs";
 
 const app = express();
 const port = 4000;
@@ -39,11 +39,15 @@ app.get("/", (req, res) => {
   console.log("Session data:", req.session);
   res.send("Hello World! does this work?");
 });
-app.get("/end", (req, res) => {
+//########## End Session ##########
+app.get("/api/end-session", (req, res) => {
   req.session = null;
-  res.send("Session ended");
+  console.log("Session ended");
+  
+  res.send(JSON.stringify({ message: "Session ended" }));
 });
 
+//########## Register New User ##########
 app.post("/validate-new-user", async (req, res) => {
   const register = await RegisterNewUser(req, res, base_url);
   if (register.alert) {
@@ -55,6 +59,7 @@ app.post("/validate-new-user", async (req, res) => {
   res.send(register);
 });
 
+//########## Login User ##########
 app.post("/login-user", async (req, res) => {
   const login = await LoginUser(req, res, base_url);
   if (login.alert) {
@@ -70,33 +75,51 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-
 //########## Check Session ##########
 app.get("/api/check-session", (req, res) => {
   if (req.session.user) {
-    res.send(JSON.stringify({ message: "Active session", user: req.session.user}));
+    res.send(
+      JSON.stringify({ message: "Active session", user: req.session.user })
+    );
   } else {
-    res.status(401).send(JSON.stringify({ message: "No active session"}));
+    res.status(401).send(JSON.stringify({ message: "No active session" }));
   }
 });
 
 //########## Get User Data ##########
 app.post("/api/get-user", async (req, res) => {
-  const user = await GetUser(req, res, base_url)
+  const user = await GetUser(req, res, base_url);
 
-  console.log('user', user)
+  console.log("user", user);
   res.send(JSON.stringify(user));
-})
+});
 
 //########## Add Task ##########
 app.post("/api/add-task", async (req, res) => {
+  //console.log('req', req.body)
   const newTask = await AddTask(req, res, base_url);
   res.send(JSON.stringify(newTask));
-})
+});
 
 //########## GET Tasks ##########
 app.post("/api/get-tasks", async (req, res) => {
-  console.log('req', req.body)
+  console.log("req", req.body);
   const tasks = await GetTasks(req, res, base_url);
   res.send(JSON.stringify(tasks));
-})
+});
+
+//########## Update Task ##########
+
+app.put("/api/update-task", async (req, res) => {
+  console.log("req", req.body);
+  const updateTask = await UpdateTask(req, res, base_url);
+  console.log("updateTask", updateTask);
+  res.send(JSON.stringify(updateTask));
+});
+
+//########## Delete Task ##########
+app.delete("/api/delete-task", async (req, res) => {
+  console.log("req", req.body);
+  const newTask = await DeleteTask(req, res, base_url);
+  res.send(JSON.stringify(newTask));
+});

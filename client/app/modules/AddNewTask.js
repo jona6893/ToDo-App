@@ -10,6 +10,7 @@ export default async function addNewTask(task) {
   if (response.ok) {
     const newTask = await response.json();
     console.log("New Task:", newTask);
+    return { status: true, newTask };
   } else {
     console.error("Failed to create new task");
   }

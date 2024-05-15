@@ -36,8 +36,12 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx/:/etc/nginx/conf.d/
+      - /etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
+      - /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem
+      - /etc/letsencrypt/live/todo.projekts.tech/fullchain.pem:/etc/letsencrypt/live/todo.projekts.tech/fullchain.pem
+      - /etc/letsencrypt/live/todo.projekts.tech/privkey.pem:/etc/letsencrypt/live/todo.projekts.tech/privkey.pem
     ports:
-      - 80:80
+      - 8080:80
     depends_on:
       - nextjs
     networks:

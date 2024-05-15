@@ -26,5 +26,5 @@ docker build -t server_image -f server/Dockerfile server || error_exit "Failed t
 
 # Change to the directory containing docker-compose.yml
 printf "${YELLOW}Running Docker Compose...${NC}\n"
-docker-compose up --abort-on-container-exit || error_exit "Docker Compose failed"
+docker compose up --abort-on-container-exit || error_exit "Docker Compose failed"
 

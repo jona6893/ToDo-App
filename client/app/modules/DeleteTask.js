@@ -1,5 +1,5 @@
 export default async function DeleteTaskAPI(_key) {
-  const response = await fetch("http://localhost:4000/api/delete-task", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}delete-task`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

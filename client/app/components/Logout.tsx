@@ -5,7 +5,7 @@ import LogoutUser from "../modules/LogoutUser";
 function Logout() {
   async function handleLogout() {
     console.log("logout");
-    const response = await fetch("http://localhost:4000/api/end-session", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}end-session`, {
       method: "GET",
       credentials: "include",
       headers: {

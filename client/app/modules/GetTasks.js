@@ -1,5 +1,5 @@
 export default async function getTasks(_key) {
-    const response = await fetch("http://localhost:4000/api/get-tasks", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}get-tasks`, {
         method: "POST",
         headers: {
         "Content-Type": "application/json",

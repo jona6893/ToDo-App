@@ -3,19 +3,19 @@ version: "3.8" # Specify the docker-compose version
 services:
   nodejs: # Replace with your application name
     build: . # Build the image from the current directory (context)
-    ports:
-      - "4000:4000" # Map container port 3000 to host port 3000
     image: server_image
     volumes:
       - ./server:/app/server # Mount the current directory as /app inside the container
       - /app/server/node_modules
+    networks:
+      - uw_docker_network
+    depends_on:
+      - arangodb
 
   arangodb:
     image: arangodb:3.11.3
     container_name: arangodb_container
     restart: always
-    ports:
-      - 8529:8529
     environment:
       - ARANGO_NO_AUTH=1
     volumes:
@@ -25,14 +25,24 @@ services:
 
   nextjs:
     container_name: nextjs_docker_container
-    ports:
-      - 3000:3000
     image: client_image
     volumes:
       - ./client:/app/client
       - /app/client/node_modules
     networks:
       - uw_docker_network
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+    ports:
+      - 80:80
+    depends_on:
+      - nextjs
+    networks:
+      - uw_docker_network
+
 
 networks:
   uw_docker_network:

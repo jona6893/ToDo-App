@@ -1,6 +1,6 @@
 
 export default async function SignInUser(email, password){
-    const response = await fetch('http://localhost:4000/login-user', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}login-user`, {
         method: 'POST',
         credentials: 'include',
         headers: {

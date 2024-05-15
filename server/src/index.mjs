@@ -11,12 +11,12 @@ const app = express();
 const port = 4000;
 
 // url to the arango database
-const base_url = "http://host.docker.internal:8529";
+const base_url = "http://arangodb:8529";
 
 // enable cors allowing the frontend to access the backend
 app.use(
   cors({
-    origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
+    origin: ["http://127.0.0.1:3000", "http://localhost:3000", "http://134.122.75.159", "http://134.122.75.159:3000"],
     credentials: true,
   })
 );
@@ -35,7 +35,7 @@ app.use(
 // parse application/json
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   console.log("Session data:", req.session);
   res.send("Hello World! does this work?");
 });
@@ -48,7 +48,7 @@ app.get("/api/end-session", (req, res) => {
 });
 
 //########## Register New User ##########
-app.post("/validate-new-user", async (req, res) => {
+app.post("/api/validate-new-user", async (req, res) => {
   const register = await RegisterNewUser(req, res, base_url);
   if (register.alert) {
     return res.send(register);
@@ -60,7 +60,7 @@ app.post("/validate-new-user", async (req, res) => {
 });
 
 //########## Login User ##########
-app.post("/login-user", async (req, res) => {
+app.post("/api/login-user", async (req, res) => {
   const login = await LoginUser(req, res, base_url);
   if (login.alert) {
     return res.send(login);

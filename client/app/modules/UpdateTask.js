@@ -1,5 +1,5 @@
 export default async function UpdateTaskAPI(update) {
-  const response = await fetch("http://localhost:4000/api/update-task", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}update-task`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

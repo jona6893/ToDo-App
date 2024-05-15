@@ -10,7 +10,7 @@ function validatePassword(password, confirmPassword) {
 
 async function validateNewUser(email, password, confirmPassword) {
   console.log(email, password, confirmPassword);
-  const response = await fetch("http://localhost:4000/validate-new-user", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}validate-new-user`, {
     method: "POST",
     credentials: "include",
     headers: {

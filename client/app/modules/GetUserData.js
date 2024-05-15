@@ -1,5 +1,5 @@
 async function checkSession() {
-  const response = await fetch("http://localhost:4000/api/check-session", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}check-session`, {
     method: "GET",
     credentials: "include",
   });
@@ -13,7 +13,7 @@ async function checkSession() {
 }
 
 async function getUserData(_key) {
-  const response = await fetch("http://localhost:4000/api/get-user", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}get-user`, {
     method: "POST",
     credentials: "include",
     headers: {

@@ -8,7 +8,7 @@ import Logout from "./Logout";
 function Header(/* {setUser, user}:Props */) {
   const { user, setUser } = userStore();
   const [model, setModel] = React.useState<boolean>(false);
-  useEffect(() => {
+/*   useEffect(() => {
     const fetchData = async () => {
       const checkUser = await checkSession();
       const user = checkUser.user;
@@ -22,22 +22,16 @@ function Header(/* {setUser, user}:Props */) {
     };
 
     fetchData();
-  }, []);
+  }, []); */
   //console.log(user)
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:p-4 max-md:p-2">
         <div className="dark:text-gray-200 flex md:flex-row-reverse max-md:flex-col md:items-center gap-2">
           <Logout />
-          <p className="text-sm ">
-            {user?.email ? `Welcome: ${user.email}` : "username"}
-          </p>
         </div>
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             ToDo App
           </span>
@@ -53,6 +47,9 @@ function Header(/* {setUser, user}:Props */) {
         </div>
         {model && <NewTask setModel={setModel} user={user} />}
       </div>
+      <p className="text-sm w-full flex justify-center">
+        {user?.email ? `Welcome: ${user.email}` : "username"}
+      </p>
     </nav>
   );
 }

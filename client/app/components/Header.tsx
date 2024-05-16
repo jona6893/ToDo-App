@@ -8,7 +8,7 @@ import Logout from "./Logout";
 function Header(/* {setUser, user}:Props */) {
   const { user, setUser } = userStore();
   const [model, setModel] = React.useState<boolean>(false);
-/*   useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       const checkUser = await checkSession();
       const user = checkUser.user;
@@ -22,7 +22,7 @@ function Header(/* {setUser, user}:Props */) {
     };
 
     fetchData();
-  }, []); */
+  }, []);
   //console.log(user)
 
   return (
